@@ -4,7 +4,7 @@ set -eu
 
 QUAY_HOOK=$(git config quay.webhook) || :;QUAY_HOOK=
 DOCKERHUB_HOOK=$(git config dockerhub.webhook) || DOCKERHUB_HOOK=
-: ${DRYRUN=1}
+: ${DRYRUN=0}
 
 if [ "${DRYRUN}" != "0" ]; then
   DRYRUN=echo
