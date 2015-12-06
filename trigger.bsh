@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -eu
+
+QUAY_HOOK=$(git config quay.webhook) || :;QUAY_HOOK=
+DOCKERHUB_HOOK=$(git config dockerhub.webhook) || DOCKERHUB_HOOK=
+: ${DRYRUN=1}
+
+if [ "${DRYRUN}" != "0" ]; then
+  DRYRUN=echo
+else
+  DRYRUN=
+fi
+
+if [ "$#" -gt "0" ]; then
+  TAG_LIST=("${@}")
+else
+  TAG_LIST=($(git tag))
+  if [ "$DOCKERHUB_HOOK" != "" ]; then
+    echo "Triggering Docker Hub for all"
+    $DRYRUN curl -H "Content-Type: application/json" --data '{"build": true}' -X POST $DOCKERHUB_HOOK
+  fi
+fi
+
+for tag in "${TAG_LIST[@]}"; do
+  if [ "$QUAY_HOOK" != "" ]; then
+    echo "Triggering Quay for $tag"
+    echo '{
+  "commit": "'$(git rev-parse $tag)'",
+  "ref": "refs/tags/'$tag'",
+  "default_branch": "master"
+}' | $DRYRUN curl -X POST --data @- -H "Content-Type: application/json" $QUAY_HOOK
+  fi
+  if [ "$DOCKERHUB_HOOK" != "" -a "$#" -gt "0" ]; then
+    echo "Triggering Docker Hub for $tag"
+    $DRYRUN curl -X POST --data '{"source_type": "Tag", "source_name": "'$tag'"}' -H "Content-Type: application/json" $DOCKERHUB_HOOK
+  fi
+done
