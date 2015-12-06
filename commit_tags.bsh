@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -eu
+
+cd $(dirname "${BASH_SOURCE[0]}")
+
+: ${GOLANG_VERSION:=1.5.1}
+export GOLANG_VERSION
+
+export DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION:-v1.0.0}
+
+
+if ! git diff --cached --exit-code >/dev/null 2>&1 || ! git diff --exit-code >/dev/null 2>&1; then
+  echo "Git repo is not clean. Please make sure everything is checked in and commited"
+  exit 2
+fi
+#This is the best test I could find for is git status clean
+
+HEAD_NAME=$(git symbolic-ref -q HEAD) || HEAD_NAME=$(git rev-parse HEAD)
+HEAD_NAME=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+if [ "$HEAD_NAME" == "HEAD" ]; then
+  HEAD_NAME=$(git rev-parse HEAD)
+fi
+
+for dockerfile in *.dockerfile; do
+  IMAGE_NAME=$(basename ${dockerfile%.*})
+  echo "Tagging for ${IMAGE_NAME}"
+  git checkout --detach ${HEAD_NAME}
+  ./docker+.bsh ${dockerfile} > ./Dockerfile
+  git add Dockerfile
+  git commit -m "Auto generated branch for docker hub"
+  git tag -f ${IMAGE_NAME}
+done
+
+git checkout ${HEAD_NAME}

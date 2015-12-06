@@ -35,6 +35,7 @@ case "${OS_NAME}" in
 esac
 
 mkdir -p $(dirname "${GIT_LFS_BUILD_DIR}")
+echo "Making a copy of git repo"
 cp -r -T "${SRC_DIR}" "${GIT_LFS_BUILD_DIR}"
 
 cd "${GIT_LFS_BUILD_DIR}"

@@ -1,7 +1,7 @@
-FROM centos:6
+FROM centos:7
 MAINTAINER Andy Neff <andyneff@users.noreply.github.com>
 
-SOURCE bootstrap_centos_6.dockerfile
+SOURCE centos_7.bootstrap
 
 CMD rm -rf /tmp/docker_setup/*/rpm/SRPMS/git-lfs* /tmp/docker_setup/*/rpm/RPMS/*/git-lfs* && \
     rsync -ra /tmp/docker_setup/*/rpm/{RPMS,SRPMS} /repo && \
