@@ -22,16 +22,22 @@ if [ "$HEAD_NAME" == "HEAD" ]; then
   HEAD_NAME=$(git rev-parse HEAD)
 fi
 
-for dockerfile in *.dockerfile; do
-  IMAGE_NAME=$(basename ${dockerfile%.*})
-  echo "Tagging for ${IMAGE_NAME}"
+if [[ $# == 0 ]]; then
+  IMAGE_NAMES=($(ls *.dockerfile))
+else
+  IMAGE_NAMES=("${@}")
+fi
+
+for IMAGE_NAME in "${IMAGE_NAMES[@]}"; do
+  NAME=$(basename ${IMAGE_NAME%.*})
+  echo "Tagging for ${NAME}"
   git checkout --detach ${HEAD_NAME}
-  ./docker+.bsh ${dockerfile} > ./Dockerfile
+  ./docker+.bsh ${IMAGE_NAME} > ./Dockerfile
   git add Dockerfile
   git commit -m "Auto generated branch for docker hub"
-  git tag -f ${IMAGE_NAME}
+  git tag -f ${NAME}
 done
 
 git checkout ${HEAD_NAME}
 
-echo "You probably want to 'git push origin --tags master' now"
+echo "You probably want to 'git push origin --tags -f' now"
