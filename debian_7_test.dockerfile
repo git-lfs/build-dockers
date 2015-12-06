@@ -9,17 +9,16 @@ COPY test_lfs.bsh /tmp/test_lfs.bsh
 #TODO: Needs to be replaced by an apt repo
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y wget
-ENV REPO_HOSTNAME="[{REPO_HOSTNAME}]"
-RUN echo "deb http://${REPO_HOSTNAME:-git-lfs.github.com}/debian/7 wheezy main" > /etc/apt/sources.list.d/git-lfs-main.list
-RUN wget -P /tmp/ http://${REPO_HOSTNAME:-git-lfs.github.com}/debian/7/GPG-KEY-GITLFS || :
-RUN [ ! -s /tmp/GPG-KEY-GITLFS ] || \
-    gpg --dearmour -o /etc/apt/trusted.gpg.d/git-lfs.gpg /tmp/GPG-KEY-GITLFS
-RUN [ ! -s /etc/apt/trusted.gpg.d/git-lfs.gpg ] || \
-    apt-key add /etc/apt/trusted.gpg.d/git-lfs.gpg
-#I wasn't supposed to need to do this, but I don't know how not to.
 
 #These SHOULD be throw away commands, and not stored as Docker commits
-CMD echo 'deb http://http.debian.net/debian wheezy-backports main' > /etc/apt/sources.list.d/wheezy-backports-main.list && \
+CMD echo "deb http://${REPO_HOSTNAME:-git-lfs.github.com}/debian/7 wheezy main" > /etc/apt/sources.list.d/git-lfs-main.list && \
+    (wget -P /tmp/ http://${REPO_HOSTNAME:-git-lfs.github.com}/debian/7/GPG-KEY-GITLFS || :) && \
+    ([ ! -s /tmp/GPG-KEY-GITLFS ] || \
+     gpg --dearmour -o /etc/apt/trusted.gpg.d/git-lfs.gpg /tmp/GPG-KEY-GITLFS) && \
+    ([ ! -s /etc/apt/trusted.gpg.d/git-lfs.gpg ] || \
+     apt-key add /etc/apt/trusted.gpg.d/git-lfs.gpg) && \
+    #I wasn't supposed to need to do this, but I don't know how not to.
+    echo 'deb http://http.debian.net/debian wheezy-backports main' > /etc/apt/sources.list.d/wheezy-backports-main.list && \
     DEBIAN_FRONTEND=noninteractive apt-get -y update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y -t wheezy-backports git-lfs && \
     git lfs && \

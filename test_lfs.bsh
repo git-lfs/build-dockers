@@ -2,7 +2,7 @@
 
 set -eu
 
-git lfs init
+git lfs install
 
 git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
@@ -13,4 +13,4 @@ mkdir -p ./src/github.com/github
 unlink src/github.com/github/git-lfs || :
 ln -sf $(pwd) src/github.com/github/git-lfs
 LFS_BIN=1 GOPATH=$(pwd) ./script/test
-LFS_BIN=1 ./script/integration
+LFS_BIN=1 GOPATH=$(pwd) ./script/integration
