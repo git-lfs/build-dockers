@@ -33,3 +33,5 @@ for dockerfile in *.dockerfile; do
 done
 
 git checkout ${HEAD_NAME}
+
+echo "You probably want to 'git push origin --tags master' now"
