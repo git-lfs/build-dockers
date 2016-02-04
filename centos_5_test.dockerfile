@@ -8,6 +8,8 @@ ENV GOLANG_VERSION=[{GOLANG_VERSION}]
 
 ENV GOROOT=/usr/local/go
 
+ENV CGO_ENABLED=0
+
 RUN yum install -y curl && \
     cd /usr/local && \
     curl -L -O https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz && \
