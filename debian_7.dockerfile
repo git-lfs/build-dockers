@@ -7,9 +7,9 @@ LABEL RUN="docker run -v git-lfs-checkout-dir:/src -v repo_dir:/repo"
 RUN echo 'deb http://http.debian.net/debian wheezy-backports main' > /etc/apt/sources.list.d/wheezy-backports-main.list
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
-apt-get install -y -t wheezy-backports git dpkg-dev dh-golang ruby-ronn reprepro curl
+apt-get install -y -t wheezy-backports git dpkg-dev dh-golang ruby-ronn curl
 
-ENV GOLANG_VERSION=[{GOLANG_VERSION}]
+ARG GOLANG_VERSION=1.5.3
 
 ENV GOROOT=/usr/local/go
 
@@ -19,6 +19,6 @@ RUN cd /usr/local && \
     ln -s /usr/local/go/bin/go /usr/bin/go && \
     ln -s /usr/local/go/bin/gofmt /usr/bin/gofmt
 
-COPY debian_script.bsh distributions dpkg-package-gpg.bsh /tmp/
+COPY debian_script.bsh /tmp/
 
 CMD /tmp/debian_script.bsh
