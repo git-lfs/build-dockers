@@ -3,7 +3,8 @@
 set -eu
 
 REPO_DIR=${REPO_DIR:-/repo}
-GIT_LFS_BUILD_DIR=${GIT_LFS_BUILD_DIR:-/tmp/docker_run/git-lfs}
+export GOPATH=${GOPATH:-/tmp/docker_run}
+GIT_LFS_BUILD_DIR=${GIT_LFS_BUILD_DIR:-$GOPATH/src/github.com/github/git-lfs}
 SRC_DIR=${SRC_DIR:-/src}
 
 if [ -e /etc/os-release ]; then
@@ -39,8 +40,8 @@ echo "Making a copy of git repo"
 cp -r -T "${SRC_DIR}" "${GIT_LFS_BUILD_DIR}"
 
 cd "${GIT_LFS_BUILD_DIR}"
-git clean -xdf . || ./rpm/clean.bsh #clean is needed when git isn't alread installed
-"${GIT_LFS_BUILD_DIR}"/rpm/build_rpms.bsh
+git clean -xdf . || rpm/clean.bsh #clean is needed when git isn't already installed
+rpm/build_rpms.bsh
 rpmbuild --nodeps --define "dist ${RPM_DIST}" --define "_topdir ${GIT_LFS_BUILD_DIR}/rpm/" --target=i686 -bb "${GIT_LFS_BUILD_DIR}"/rpm/SPECS/git-lfs.spec
 
 rsync -ra ${GIT_LFS_BUILD_DIR}/rpm/{SRPMS,RPMS} ${REPO_DIR}
