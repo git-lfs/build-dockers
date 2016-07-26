@@ -6,7 +6,7 @@ LABEL RUN="docker run -v git-lfs-repo-dir:/src -v repo_dir:/repo"
 
 RUN yum install -y rsync git ruby ruby-devel gcc
 
-ARG GOLANG_VERSION=1.5.3
+ARG GOLANG_VERSION=1.6.3
 
 ENV GOROOT=/usr/local/go
 
@@ -20,7 +20,7 @@ RUN cd /usr/local && \
 #Next time. So that the LONG build/installed in centos are only done once, and
 #stored in the image.
 
-#Set to master if you want the lastest, but IF there is a failure,
+#Set to master if you want the latest, but IF there is a failure,
 #the docker will not build, so I decided to make a stable version the default
 ARG DOCKER_LFS_BUILD_VERSION=v1.1.1
 
