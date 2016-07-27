@@ -19,6 +19,6 @@ RUN cd /usr/local && \
     ln -s /usr/local/go/bin/go /usr/bin/go && \
     ln -s /usr/local/go/bin/gofmt /usr/bin/gofmt
 
-COPY debian_script.bsh /tmp/
+COPY ../debian_script.bsh /tmp/
 
 CMD /tmp/debian_script.bsh
