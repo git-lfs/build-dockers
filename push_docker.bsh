@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-# Usage: 
+# Usage:
 #  ./push_dockers.bsh - Run all the docker images
 #  ./push_dockers.bsh lfs_centos_5 lfs_centos_7 - Run only CentOS 5 & 7 image
 #
 # Special Environmet Variables
-#  DOCKER_AUTOBUILD - Default 1. If set to 0, it will not build docker images 
+#  DOCKER_AUTOBUILD - Default 1. If set to 0, it will not build docker images
 #                before running
 
 set -eu
@@ -57,7 +57,7 @@ for DOCKER_FILE in "${IMAGES[@]}"; do
     ${CUR_DIR}/build_dockers.bsh ${DOCKER_FILE}
   fi
 
-  $SUDO docker push andyneff/build_git-lfs:${IMAGE_NAME}
+  $SUDO docker push gitlfs/linux_packages:${IMAGE_NAME}
 
 done
 

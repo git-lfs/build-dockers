@@ -31,8 +31,8 @@ for IMAGE_NAME in "${IMAGE_NAMES[@]}"; do
 
   echo Docker building ${NAME}
   if [[ $IMAGE_NAME == centos* ]]; then
-    $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION} -t andyneff/git-lfs_dockers:${NAME} -f ${IMAGE_NAME} ${CUR_DIR}
+    $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION} -t gitlfs/linux_packages:${NAME} -f ${IMAGE_NAME} ${CUR_DIR}
   else
-    $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} -t andyneff/git-lfs_dockers:${NAME} -f ${IMAGE_NAME} ${CUR_DIR}
+    $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} -t gitlfs/linux_packages:${NAME} -f ${IMAGE_NAME} ${CUR_DIR}
   fi
 done
