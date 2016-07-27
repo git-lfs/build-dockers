@@ -11,13 +11,13 @@ set -eu
 
 CUR_DIR=$(dirname "${BASH_SOURCE[0]}")
 
-: ${GOLANG_VERSION:=1.5.3}
+: ${GOLANG_VERSION:=1.6.3}
 export GOLANG_VERSION
 
 #If you are not in docker group and you have sudo, default value is sudo
 : ${SUDO=`if ( [ ! -w /var/run/docker.sock ] && id -nG | grep -qwv docker && [ "${DOCKER_HOST:+dh}" != "dh" ] ) && which sudo > /dev/null 2>&1; then echo sudo; fi`}
 
-export DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION:-v1.1.1}
+export DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION:-release-1.3}
 
 if [[ $# == 0 ]]; then
   IMAGE_NAMES=($(ls -d ${CUR_DIR}/*.dockerfile))
@@ -31,8 +31,8 @@ for IMAGE_NAME in "${IMAGE_NAMES[@]}"; do
 
   echo Docker building ${NAME}
   if [[ $IMAGE_NAME == centos* ]]; then
-    $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION} -t andyneff/git-lfs_dockers:${NAME} -f ${IMAGE_NAME} ${CUR_DIR}
+    $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION} -t gitlfs/linux_packages:${NAME} -f ${IMAGE_NAME} ${CUR_DIR}
   else
-    $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} -t andyneff/git-lfs_dockers:${NAME} -f ${IMAGE_NAME} ${CUR_DIR}
+    $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} -t gitlfs/linux_packages:${NAME} -f ${IMAGE_NAME} ${CUR_DIR}
   fi
 done
