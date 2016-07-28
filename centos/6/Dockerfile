@@ -35,6 +35,6 @@ RUN cd /tmp/docker_setup/; \
     rm -rf /tmp/docker_setup
 
 #Add the simple build repo script
-COPY centos/centos_script.bsh /tmp/
+COPY centos_script.bsh /tmp/
 
 CMD /tmp/centos_script.bsh
