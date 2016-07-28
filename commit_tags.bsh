@@ -32,7 +32,7 @@ for IMAGE_NAME in "${IMAGE_NAMES[@]}"; do
   NAME=$(basename ${IMAGE_NAME%.*})
   echo "Tagging for ${NAME}"
   git checkout --detach ${HEAD_NAME}
-  ./docker+.bsh ${IMAGE_NAME} > ./Dockerfile
+  cp ${IMAGE_NAME} Dockerfile
   git add Dockerfile
   git commit -m "Auto generated branch for docker hub"
   git tag -f ${NAME}

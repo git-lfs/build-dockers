@@ -20,14 +20,18 @@ export GOLANG_VERSION
 export DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION:-release-1.3}
 
 if [[ $# == 0 ]]; then
-  IMAGE_NAMES=($(ls -d ${CUR_DIR}/*.dockerfile))
+  IMAGE_NAMES=($(ls -d ${CUR_DIR}/*/*/Dockerfile))
 else
   IMAGE_NAMES=("${@}")
 fi
 
 #This will take a long time the first time
 for IMAGE_NAME in "${IMAGE_NAMES[@]}"; do
-  NAME=$(basename ${IMAGE_NAME%.*})
+  # IMAGE_NAME is "./debian/7/Dockerfile"
+  # strip basename
+  # strip leading non whitespace
+  # convert / to _
+  NAME=$(dirname ${IMAGE_NAME} | sed 's/[\.\/]*//' | sed 's/\//_/')
 
   echo Docker building ${NAME}
   if [[ $IMAGE_NAME == centos* ]]; then
