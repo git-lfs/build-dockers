@@ -6,7 +6,7 @@ LABEL RUN="docker run -v git-lfs-repo-dir:/src -v repo_dir:/repo"
 
 RUN yum install -y epel-release rsync tar
 
-ARG GOLANG_VERSION=1.7
+ARG GOLANG_VERSION=1.7.1
 
 ENV GOROOT=/usr/local/go
 
@@ -22,7 +22,7 @@ RUN cd /usr/local && \
 
 #Set to master if you want the latest, but IF there is a failure,
 #the docker will not build, so I decided to make a stable version the default
-ARG DOCKER_LFS_BUILD_VERSION=release-1.3
+ARG DOCKER_LFS_BUILD_VERSION=release-1.4
 
 ADD https://github.com/github/git-lfs/archive/${DOCKER_LFS_BUILD_VERSION}.tar.gz /tmp/docker_setup/
 RUN cd /tmp/docker_setup/; \
