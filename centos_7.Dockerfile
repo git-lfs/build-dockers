@@ -24,12 +24,12 @@ RUN cd /usr/local && \
 #the docker will not build, so I decided to make a stable version the default
 ARG DOCKER_LFS_BUILD_VERSION=release-1.4
 
-ADD https://github.com/github/git-lfs/archive/${DOCKER_LFS_BUILD_VERSION}.tar.gz /tmp/docker_setup/
+ADD https://github.com/git-lfs/git-lfs/archive/${DOCKER_LFS_BUILD_VERSION}.tar.gz /tmp/docker_setup/
 RUN cd /tmp/docker_setup/; \
     tar zxf ${DOCKER_LFS_BUILD_VERSION}.tar.gz; \
-    mkdir -p src/github.com/github; \
-    mv git-lfs-* src/github.com/github/git-lfs; \
-    cd /tmp/docker_setup/src/github.com/github/git-lfs/rpm; \
+    mkdir -p src/github.com/git-lfs; \
+    mv git-lfs-* src/github.com/git-lfs/git-lfs; \
+    cd /tmp/docker_setup/src/github.com/git-lfs/git-lfs/rpm; \
     touch build.log; \
     tail -f build.log & GOPATH=/tmp/docker_setup ./build_rpms.bsh; \
     rm -rf /tmp/docker_setup
