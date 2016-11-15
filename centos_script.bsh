@@ -4,7 +4,7 @@ set -eu
 
 REPO_DIR=${REPO_DIR:-/repo}
 export GOPATH=${GOPATH:-/tmp/docker_run}
-GIT_LFS_BUILD_DIR=${GIT_LFS_BUILD_DIR:-$GOPATH/src/github.com/github/git-lfs}
+GIT_LFS_BUILD_DIR=${GIT_LFS_BUILD_DIR:-$GOPATH/src/github.com/git-lfs/git-lfs}
 SRC_DIR=${SRC_DIR:-/src}
 
 if [ -e /etc/os-release ]; then
