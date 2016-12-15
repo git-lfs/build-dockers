@@ -9,7 +9,7 @@ RUN echo 'deb http://http.debian.net/debian wheezy-backports main' > /etc/apt/so
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
 apt-get install -y -t wheezy-backports git dpkg-dev dh-golang ruby-ronn curl
 
-ARG GOLANG_VERSION=1.7.4
+ARG GOLANG_VERSION=1.7.3
 
 ENV GOROOT=/usr/local/go
 

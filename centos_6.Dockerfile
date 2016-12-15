@@ -6,7 +6,7 @@ LABEL RUN="docker run -v git-lfs-repo-dir:/src -v repo_dir:/repo"
 
 RUN yum install -y epel-release rsync tar
 
-ARG GOLANG_VERSION=1.7.4
+ARG GOLANG_VERSION=1.7.3
 
 ENV GOROOT=/usr/local/go
 
