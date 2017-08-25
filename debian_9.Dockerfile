@@ -7,7 +7,7 @@ LABEL RUN="docker run -v git-lfs-checkout-dir:/src -v repo_dir:/repo"
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
 apt-get install -y git dpkg-dev dh-golang ruby-ronn curl
 
-ARG GOLANG_VERSION=1.8.3
+ARG GOLANG_VERSION=1.9
 
 ENV GOROOT=/usr/local/go
 

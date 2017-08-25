@@ -6,7 +6,7 @@ LABEL RUN="docker run -v git-lfs-repo-dir:/src -v repo_dir:/repo"
 
 RUN yum install -y rsync git ruby ruby-devel gcc
 
-ARG GOLANG_VERSION=1.8.3
+ARG GOLANG_VERSION=1.9
 
 ENV GOROOT=/usr/local/go
 
