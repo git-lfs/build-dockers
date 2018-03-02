@@ -5,6 +5,14 @@ MAINTAINER Andy Neff <andyneff@users.noreply.github.com>
 LABEL RUN="docker run -v git-lfs-repo-dir:/src -v repo_dir:/repo"
 
 RUN yum install -y epel-release rsync tar
+RUN yum install -y gettext-devel openssl-devel perl-CPAN perl-devel zlib-devel make wget autoconf && \
+  wget https://github.com/git/git/archive/v2.16.0.tar.gz -O git.tar.gz && \
+  tar -zxf git.tar.gz && \
+  cd git-* && \
+  make configure && \
+  ./configure --prefix=/usr/local && \
+  make install && \
+  git --version
 
 ARG GOLANG_VERSION=1.8.3
 
