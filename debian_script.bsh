@@ -8,20 +8,23 @@ SRC_DIR=${SRC_DIR:-/src}
 REPO_CODENAME=${REPO_CODENAME:-$(source /etc/os-release; echo $VERSION | sed -r 's|.*\((.*)\)|\1|')}
 
 mkdir -p ${GIT_LFS_BUILD_DIR}
-cp -r -T "${SRC_DIR}" "${GIT_LFS_BUILD_DIR}/i386"
-cd "${GIT_LFS_BUILD_DIR}/i386"
-git clean -xdf .
-git checkout-index --force --all
-dpkg-buildpackage -d -us -uc -b -ai386
 
-cp -r -T "${SRC_DIR}" "${GIT_LFS_BUILD_DIR}/amd64"
-cd "${GIT_LFS_BUILD_DIR}/amd64"
-git clean -xdf .
-git checkout-index --force --all
-dpkg-buildpackage -d -us -uc -b
 
-cp `find "${GIT_LFS_BUILD_DIR}/i386/.." -maxdepth 1 -type f` "${REPO_DIR}/"
-cp `find "${GIT_LFS_BUILD_DIR}/amd64/.." -maxdepth 1 -type f` "${REPO_DIR}/"
+if [[ "$REPO_CODENAME" == "jessie" ]]; then
+  TARGETED_ARCHS="i386 armel armhf amd64"
+else 
+  TARGETED_ARCHS="i386 armel armhf arm64 amd64"
+fi 
+
+for ARCH in $TARGETED_ARCHS; do
+  cp -r -T "${SRC_DIR}" "${GIT_LFS_BUILD_DIR}/${ARCH}"
+  cd "${GIT_LFS_BUILD_DIR}/${ARCH}"
+  git clean -xdf .
+  git checkout-index --force --all
+  dpkg-buildpackage -d -us -uc -b -a"$ARCH"
+
+  cp `find "${GIT_LFS_BUILD_DIR}/${ARCH}/.." -maxdepth 1 -type f` "${REPO_DIR}/"
+done
 
 if [ "${FINAL_UID-}:${FINAL_GID-}" != ":" ]; then
   chown ${FINAL_UID-}:${FINAL_GID-} -R "${REPO_DIR}"
