@@ -57,7 +57,7 @@ for DOCKER_FILE in "${IMAGES[@]}"; do
     ${CUR_DIR}/build_dockers.bsh ${DOCKER_FILE}
   fi
 
-  $SUDO docker push gitlfs/linux_packages:${IMAGE_NAME}
+  $SUDO docker push gitlfs/build-dockers:${IMAGE_NAME}
 
 done
 
