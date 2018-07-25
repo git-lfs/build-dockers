@@ -12,5 +12,5 @@ cd /tmp/test
 mkdir -p ./src/github.com/git-lfs
 unlink src/github.com/git-lfs/git-lfs || :
 ln -sf $(pwd) src/github.com/git-lfs/git-lfs
-LFS_BIN=1 GOPATH=$(pwd) ./script/test
-LFS_BIN=1 GOPATH=$(pwd) ./script/integration
+LFS_BIN=1 GOPATH=$(pwd) make test
+LFS_BIN=1 GOPATH=$(pwd) make -C t test
