@@ -34,12 +34,13 @@ ARG DOCKER_LFS_BUILD_VERSION=release-1.5
 
 ADD https://github.com/git-lfs/git-lfs/archive/${DOCKER_LFS_BUILD_VERSION}.tar.gz /tmp/docker_setup/
 RUN cd /tmp/docker_setup/; \
-    tar zxf ${DOCKER_LFS_BUILD_VERSION}.tar.gz; \
-    mkdir -p src/github.com/git-lfs; \
-    mv git-lfs-* src/github.com/git-lfs/git-lfs; \
-    cd /tmp/docker_setup/src/github.com/git-lfs/git-lfs/rpm; \
+    mkdir -p src; \
+    cd src; \
+    tar -zxf ../${DOCKER_LFS_BUILD_VERSION}.tar.gz; \
+    mv git-lfs-${DOCKER_LFS_BUILD_VERSION} git-lfs; \
+    cd /tmp/docker_setup/src/git-lfs/rpm; \
     touch build.log; \
-    tail -f build.log & GOPATH=/tmp/docker_setup ./build_rpms.bsh; \
+    tail -f build.log & ./build_rpms.bsh; \
     rm -rf /tmp/docker_setup
 
 #Add the simple build repo script

@@ -2,9 +2,8 @@
 
 set -eu
 
-export GOPATH="${GOPATH:-/tmp/docker_run}:/usr/share/gocode"
 REPO_DIR=${REPO_DIR:-/repo}
-GIT_LFS_BUILD_DIR=${GIT_LFS_BUILD_DIR:-/tmp/docker_run/src/github.com/git-lfs/git-lfs}
+GIT_LFS_BUILD_DIR=${GIT_LFS_BUILD_DIR:-/tmp/docker_run/src/git-lfs}
 SRC_DIR=${SRC_DIR:-/src}
 REPO_CODENAME=${REPO_CODENAME:-$(source /etc/os-release; echo $VERSION | sed -r 's|.*\((.*)\)|\1|')}
 
