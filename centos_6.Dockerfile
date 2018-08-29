@@ -14,7 +14,7 @@ RUN yum install -y gcc libcurl-devel gettext-devel openssl-devel perl-CPAN perl-
   make install && \
   git --version
 
-ARG GOLANG_VERSION=1.10.3
+ARG GOLANG_VERSION=1.11
 
 ENV GOROOT=/usr/local/go
 
@@ -30,16 +30,15 @@ RUN cd /usr/local && \
 
 #Set to master if you want the latest, but IF there is a failure,
 #the docker will not build, so I decided to make a stable version the default
-ARG DOCKER_LFS_BUILD_VERSION=release-1.5
+ARG DOCKER_LFS_BUILD_VERSION=release-2.4
 
 ADD https://github.com/git-lfs/git-lfs/archive/${DOCKER_LFS_BUILD_VERSION}.tar.gz /tmp/docker_setup/
 RUN cd /tmp/docker_setup/; \
-    tar zxf ${DOCKER_LFS_BUILD_VERSION}.tar.gz; \
-    mkdir -p src/github.com/git-lfs; \
-    mv git-lfs-* src/github.com/git-lfs/git-lfs; \
-    cd /tmp/docker_setup/src/github.com/git-lfs/git-lfs/rpm; \
+    mkdir -p src/git-lfs; \
+    tar -Csrc/git-lfs -zxf ${DOCKER_LFS_BUILD_VERSION}.tar.gz; \
+    cd /tmp/docker_setup/src/git-lfs/rpm; \
     touch build.log; \
-    tail -f build.log & GOPATH=/tmp/docker_setup ./build_rpms.bsh; \
+    tail -f build.log & ./build_rpms.bsh; \
     rm -rf /tmp/docker_setup
 
 #Add the simple build repo script
