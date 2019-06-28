@@ -4,7 +4,7 @@ set -eu
 
 cd $(dirname "${BASH_SOURCE[0]}")
 
-: ${GOLANG_VERSION:=1.11.1}
+: ${GOLANG_VERSION:=1.12.6}
 export GOLANG_VERSION
 
 export DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION:-release-2.1}
