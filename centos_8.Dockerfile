@@ -3,7 +3,7 @@ FROM centos:8
 RUN yum install -y rsync ruby ruby-devel gcc
 RUN yum install -y gettext-devel libcurl-devel openssl-devel perl-CPAN perl-devel zlib-devel make wget autoconf git
 
-ARG GOLANG_VERSION=1.13.1
+ARG GOLANG_VERSION=1.13.4
 
 ENV GOROOT=/usr/local/go
 
