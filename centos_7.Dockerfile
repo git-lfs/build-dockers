@@ -24,25 +24,6 @@ RUN cd /usr/local && \
     ln -s /usr/local/go/bin/go /usr/bin/go && \
     ln -s /usr/local/go/bin/gofmt /usr/bin/gofmt
 
-#The purpose of this is to build and install everything needed to build git-lfs
-#Next time. So that the LONG build/installed in centos are only done once, and
-#stored in the image.
-
-#Set to master if you want the latest, but IF there is a failure,
-#the docker will not build, so I decided to make a stable version the default
-ARG DOCKER_LFS_BUILD_VERSION=release-2.4
-
-ADD https://github.com/git-lfs/git-lfs/archive/${DOCKER_LFS_BUILD_VERSION}.tar.gz /tmp/docker_setup/
-RUN cd /tmp/docker_setup/; \
-    mkdir -p src; \
-    cd src; \
-    tar -zxf ../${DOCKER_LFS_BUILD_VERSION}.tar.gz; \
-    mv git-lfs-${DOCKER_LFS_BUILD_VERSION} git-lfs; \
-    cd /tmp/docker_setup/src/git-lfs/rpm; \
-    touch build.log; \
-    tail -f build.log & ./build_rpms.bsh; \
-    rm -rf /tmp/docker_setup
-
 #Add the simple build repo script
 COPY centos_script.bsh /tmp/
 
