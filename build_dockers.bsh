@@ -12,7 +12,8 @@ set -eu
 CUR_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 : ${GOLANG_VERSION:=1.13.4}
-export GOLANG_VERSION
+: ${GOLANG_SHA256:=692d17071736f74be04a72a06dab9cac1cd759377bd85316e52b2227604c004c}
+export GOLANG_VERSION GOLANG_SHA256
 
 #If you are not in docker group and you have sudo, default value is sudo
 : ${SUDO=`if ( [ ! -w /var/run/docker.sock ] && id -nG | grep -qwv docker && [ "${DOCKER_HOST:+dh}" != "dh" ] ) && which sudo > /dev/null 2>&1; then echo sudo; fi`}
@@ -37,9 +38,9 @@ for IMAGE_NAME in "${IMAGE_NAMES[@]}"; do
   pushd $IMAGE_DIR
     echo Docker building ${NAME}
     if [[ $IMAGE_NAME == centos* ]]; then
-      $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION} -t gitlfs/build-dockers:${NAME} -f "$NAME.Dockerfile" .
+      $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=GOLANG_SHA256=${GOLANG_SHA256} --build-arg=DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION} -t gitlfs/build-dockers:${NAME} -f "$NAME.Dockerfile" .
     else
-      $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} -t gitlfs/build-dockers:${NAME} -f "$NAME.Dockerfile" .
+      $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=GOLANG_SHA256=${GOLANG_SHA256} -t gitlfs/build-dockers:${NAME} -f "$NAME.Dockerfile" .
     fi
   popd
 done
