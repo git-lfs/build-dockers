@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+IMAGE_NAME="$1"
+
+# IMAGE_NAME is "./debian_7.Dockerfile"
+# strip basename
+# strip leading "./"
+# strip trailing ".Dockerfile"
+IMAGE_DIR=$(dirname ${IMAGE_NAME})
+NAME="$(printf $IMAGE_NAME | sed 's/\.\///' | sed 's/\.Dockerfile$//')"
+
+cd $IMAGE_DIR
+echo Docker building ${NAME}
+if [[ $IMAGE_NAME == centos* ]]; then
+  $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=GOLANG_SHA256=${GOLANG_SHA256} --build-arg=DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION} -t gitlfs/build-dockers:${NAME} -f "$NAME.Dockerfile" .
+else
+  $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=GOLANG_SHA256=${GOLANG_SHA256} -t gitlfs/build-dockers:${NAME} -f "$NAME.Dockerfile" .
+fi

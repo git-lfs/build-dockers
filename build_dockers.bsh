@@ -17,8 +17,15 @@ export GOLANG_VERSION GOLANG_SHA256
 
 #If you are not in docker group and you have sudo, default value is sudo
 : ${SUDO=`if ( [ ! -w /var/run/docker.sock ] && id -nG | grep -qwv docker && [ "${DOCKER_HOST:+dh}" != "dh" ] ) && which sudo > /dev/null 2>&1; then echo sudo; fi`}
+export SUDO
 
 export DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION:-release-2.4}
+
+PARALLEL=
+if [[ ${1:-} = -j ]]; then
+  PARALLEL=t
+  shift
+fi
 
 if [[ $# == 0 ]]; then
   IMAGE_NAMES=($(ls -d ${CUR_DIR}/*.Dockerfile))
@@ -27,20 +34,10 @@ else
 fi
 
 #This will take a long time the first time
-for IMAGE_NAME in "${IMAGE_NAMES[@]}"; do
-  # IMAGE_NAME is "./debian_7.Dockerfile"
-  # strip basename
-  # strip leading "./"
-  # strip trailing ".Dockerfile"
-  IMAGE_DIR=$(dirname ${IMAGE_NAME})
-  NAME="$(printf $IMAGE_NAME | sed 's/\.\///' | sed 's/\.Dockerfile$//')"
-
-  pushd $IMAGE_DIR
-    echo Docker building ${NAME}
-    if [[ $IMAGE_NAME == centos* ]]; then
-      $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=GOLANG_SHA256=${GOLANG_SHA256} --build-arg=DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION} -t gitlfs/build-dockers:${NAME} -f "$NAME.Dockerfile" .
-    else
-      $SUDO docker build --build-arg=GOLANG_VERSION=${GOLANG_VERSION} --build-arg=GOLANG_SHA256=${GOLANG_SHA256} -t gitlfs/build-dockers:${NAME} -f "$NAME.Dockerfile" .
-    fi
-  popd
-done
+if [[ -n $PARALLEL ]]; then
+  printf "%s\n" ${IMAGE_NAMES[@]} | parallel --line-buffer -I{} "$CUR_DIR/build_one" {}
+else
+  for IMAGE_NAME in "${IMAGE_NAMES[@]}"; do
+    "$CUR_DIR/build_one" "$IMAGE_NAME"
+  done
+fi
