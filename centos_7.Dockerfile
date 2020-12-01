@@ -17,8 +17,8 @@ RUN yum install -y gettext-devel libcurl-devel openssl-devel perl-CPAN perl-deve
   make install && \
   git --version
 
-ARG GOLANG_VERSION=1.13.4
-ARG GOLANG_SHA256=692d17071736f74be04a72a06dab9cac1cd759377bd85316e52b2227604c004c
+ARG GOLANG_VERSION=1.15.5
+ARG GOLANG_SHA256=9a58494e8da722c3aef248c9227b0e9c528c7318309827780f16220998180a0d
 
 ENV GOROOT=/usr/local/go
 
