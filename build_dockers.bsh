@@ -11,8 +11,8 @@ set -eu
 
 CUR_DIR=$(dirname "${BASH_SOURCE[0]}")
 
-: ${GOLANG_VERSION:=1.16.2}
-: ${GOLANG_SHA256:=542e936b19542e62679766194364f45141fde55169db2d8d01046555ca9eb4b8}
+: ${GOLANG_VERSION:=1.17}
+: ${GOLANG_SHA256:=6bf89fc4f5ad763871cf7eac80a2d594492de7a818303283f1366a7f6a30372d}
 export GOLANG_VERSION GOLANG_SHA256
 
 #If you are not in docker group and you have sudo, default value is sudo
