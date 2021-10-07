@@ -1,5 +1,6 @@
 FROM centos:8
 
+RUN yum -y upgrade
 RUN yum install -y rsync ruby ruby-devel gcc
 RUN yum install -y gettext-devel libcurl-devel openssl-devel perl-CPAN perl-devel zlib-devel make wget autoconf git
 
