@@ -11,9 +11,30 @@ set -eu
 
 CUR_DIR=$(dirname "${BASH_SOURCE[0]}")
 
-: ${GOLANG_VERSION:=1.17}
-: ${GOLANG_SHA256:=6bf89fc4f5ad763871cf7eac80a2d594492de7a818303283f1366a7f6a30372d}
-export GOLANG_VERSION GOLANG_SHA256
+GOLANG_ARCH="amd64"
+while [ -n "$1" ]
+do
+  case "$1" in
+    --arch=*)
+      GOLANG_ARCH="${1#--arch=}"
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+: ${GOLANG_VERSION:=1.17.2}
+case "$GOLANG_ARCH" in
+  amd64)
+    : ${GOLANG_SHA256:=f242a9db6a0ad1846de7b6d94d507915d14062660616a61ef7c808a76e4f1676}
+    ;;
+  arm64)
+    : ${GOLANG_SHA256:=a5a43c9cdabdb9f371d56951b14290eba8ce2f9b0db48fb5fc657943984fd4fc}
+    ;;
+esac
+export GOLANG_VERSION GOLANG_SHA256 GOLANG_ARCH
 
 #If you are not in docker group and you have sudo, default value is sudo
 : ${SUDO=`if ( [ ! -w /var/run/docker.sock ] && id -nG | grep -qwv docker && [ "${DOCKER_HOST:+dh}" != "dh" ] ) && which sudo > /dev/null 2>&1; then echo sudo; fi`}

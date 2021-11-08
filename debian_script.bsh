@@ -2,26 +2,47 @@
 
 set -eu
 
+ARCH=amd64
+case "$(uname -m)" in
+  arm64|aarch64)
+    ARCH=arm64;;
+esac
+
 REPO_DIR=${REPO_DIR:-/repo}
 GIT_LFS_BUILD_DIR=${GIT_LFS_BUILD_DIR:-/tmp/docker_run/src/git-lfs}
 SRC_DIR=${SRC_DIR:-/src}
 REPO_CODENAME=${REPO_CODENAME:-$(source /etc/os-release; echo $VERSION | sed -r 's|.*\((.*)\)|\1|')}
 
+process_architecture () {
+  local arch="$1"
+
+  cp -r -T "${SRC_DIR}" "${GIT_LFS_BUILD_DIR}/$arch"
+  cd "${GIT_LFS_BUILD_DIR}/$arch"
+  git clean -xdf .
+  git checkout-index --force --all
+  dpkg-buildpackage -d -us -uc -b -a"$arch"
+}
+
+move_architecture () {
+  local arch="$1"
+
+  cp `find "${GIT_LFS_BUILD_DIR}/$arch/.." -maxdepth 1 -type f` "${REPO_DIR}/"
+}
+
 mkdir -p ${GIT_LFS_BUILD_DIR}
-cp -r -T "${SRC_DIR}" "${GIT_LFS_BUILD_DIR}/i386"
-cd "${GIT_LFS_BUILD_DIR}/i386"
-git clean -xdf .
-git checkout-index --force --all
-dpkg-buildpackage -d -us -uc -b -ai386
+case "$ARCH" in
+  amd64)
+    process_architecture i386
+    process_architecture amd64
 
-cp -r -T "${SRC_DIR}" "${GIT_LFS_BUILD_DIR}/amd64"
-cd "${GIT_LFS_BUILD_DIR}/amd64"
-git clean -xdf .
-git checkout-index --force --all
-dpkg-buildpackage -d -us -uc -b
-
-cp `find "${GIT_LFS_BUILD_DIR}/i386/.." -maxdepth 1 -type f` "${REPO_DIR}/"
-cp `find "${GIT_LFS_BUILD_DIR}/amd64/.." -maxdepth 1 -type f` "${REPO_DIR}/"
+    move_architecture i386
+    move_architecture amd64
+    ;;
+  arm64)
+    process_architecture arm64
+    move_architecture arm64
+    ;;
+esac
 
 if [ "${FINAL_UID-}:${FINAL_GID-}" != ":" ]; then
   chown ${FINAL_UID-}:${FINAL_GID-} -R "${REPO_DIR}"
