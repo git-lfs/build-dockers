@@ -12,7 +12,7 @@ set -eu
 CUR_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 GOLANG_ARCH="amd64"
-while [ -n "$1" ]
+while [ -n "${1-}" ]
 do
   case "$1" in
     --arch=*)
