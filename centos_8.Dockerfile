@@ -1,4 +1,4 @@
-FROM centos:8
+FROM rockylinux/rockylinux:8
 
 RUN yum -y upgrade
 RUN yum install -y rsync ruby ruby-devel rubygems-devel gcc
