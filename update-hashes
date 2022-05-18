@@ -1,0 +1,81 @@
+#!/usr/bin/env ruby
+#
+# Usage: update-hashes VERSION
+#
+# VERSION should be a supported Go version available for download.
+
+require 'json'
+require 'net/http'
+require 'tempfile'
+
+def rewrite_file(name)
+  r = File.open(name, "r")
+  w = Tempfile.new(name, ".")
+  yield r, w
+  r.close
+  w.chmod(0755)
+  File.rename(w.path, r.path)
+end
+
+def update_main_repo(version, hashes)
+  rewrite_file("build_dockers.bsh") do |r, w|
+    puts "Processing build_dockers.bsh"
+    arch = nil
+    in_arch = false
+    while line = r.gets
+      case line
+      when /^(: \$\{GOLANG_VERSION:=)(?:[0-9.]+)(\})/
+        w.puts "#{$1}#{version}#{$2}"
+      when /case "\$GOLANG_ARCH" in/
+        in_arch = true
+        w.puts line
+      when /^\s+([a-z0-9-]+)\)/
+        arch = $1 if in_arch
+        w.puts line
+      when /^(.*\$\{GOLANG_SHA256:=)(?:[a-f0-9]+)(\})/
+        w.puts "#{$1}#{hashes[arch]}#{$2}"
+      when /^esac/
+        in_arch = false
+        w.puts line
+      else
+        w.puts line
+      end
+    end
+  end
+end
+
+def update_dockerfile(name, version, hashes)
+  rewrite_file(name) do |r, w|
+    puts "Processing #{name}"
+    while line = r.gets
+      case line
+      when /^ARG GOLANG_VERSION=/
+        w.puts "ARG GOLANG_VERSION=#{version}"
+      when /^ARG GOLANG_SHA256=/
+        w.puts "ARG GOLANG_SHA256=#{hashes['amd64']}"
+      else
+        w.puts line
+      end
+    end
+  end
+end
+
+def fetch_hashes(version)
+  uri = URI('https://go.dev/dl/?mode=json')
+  res = Net::HTTP.get(uri)
+  data = JSON.parse(res)
+  ver = data.select { |v| v["version"] == "go#{version}" }.first
+  return nil unless ver && ver["files"]
+  ver["files"].select { |e| e["os"] == "linux" }.map { |e| [e["arch"], e["sha256"]] }.to_h
+end
+
+version = ARGV[0]
+hashes = fetch_hashes(version)
+if hashes.nil?
+  $stderr.puts "Cannot find version #{version}"
+  exit 2
+end
+update_main_repo(version, hashes)
+Dir.glob("*.Dockerfile").each do |f|
+  update_dockerfile(f, version, hashes)
+end
