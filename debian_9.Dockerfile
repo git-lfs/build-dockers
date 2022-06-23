@@ -5,7 +5,7 @@ MAINTAINER Andy Neff <andyneff@users.noreply.github.com>
 LABEL RUN="docker run -v git-lfs-checkout-dir:/src -v repo_dir:/repo"
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
-apt-get install -y gettext git dpkg-dev dh-golang ruby-ronn curl
+apt-get install -y gettext git dpkg-dev dh-golang ruby-ronn asciidoctor curl
 
 ARG GOLANG_VERSION=1.18.2
 ARG GOLANG_SHA256=e54bec97a1a5d230fc2f9ad0880fcbabb5888f30ed9666eca4a91c5a32e86cbc
