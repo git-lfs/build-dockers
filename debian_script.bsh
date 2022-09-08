@@ -20,6 +20,7 @@ process_architecture () {
   cd "${GIT_LFS_BUILD_DIR}/$arch"
   git clean -xdf .
   git checkout-index --force --all
+  make vendor
   dpkg-buildpackage -d -us -uc -b -a"$arch"
 }
 
