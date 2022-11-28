@@ -25,13 +25,13 @@ do
   esac
 done
 
-: ${GOLANG_VERSION:=1.18.2}
+: ${GOLANG_VERSION:=1.19.3}
 case "$GOLANG_ARCH" in
   amd64)
-    : ${GOLANG_SHA256:=e54bec97a1a5d230fc2f9ad0880fcbabb5888f30ed9666eca4a91c5a32e86cbc}
+    : ${GOLANG_SHA256:=74b9640724fd4e6bb0ed2a1bc44ae813a03f1e72a4c76253e2d5c015494430ba}
     ;;
   arm64)
-    : ${GOLANG_SHA256:=fc4ad28d0501eaa9c9d6190de3888c9d44d8b5fb02183ce4ae93713f67b8a35b}
+    : ${GOLANG_SHA256:=99de2fe112a52ab748fb175edea64b313a0c8d51d6157dba683a6be163fd5eab}
     ;;
 esac
 export GOLANG_VERSION GOLANG_SHA256 GOLANG_ARCH
