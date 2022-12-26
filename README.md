@@ -53,10 +53,6 @@ the next. This is why triggering all is preferred.
 
 `export` before calling `commit_tags.bsh`/`build_docker.bsh`. 
 
-`DOCKER_LFS_BUILD_VERSION` - The version of LFS used to bootstrap the (CentOS)
-environment. This does not need to be bumped every version. This can be a tag 
-or a sha.
-
 ## Old way ## 
 
 1. Build the dockers
@@ -72,15 +68,7 @@ or a sha.
 In order to use the docker **images**, they have to be built so that they are
 ready to be used. For OSes like Debian, this is a fairly quick process. 
 However CentOS takes considerably longer time, since it has to build/install go, ruby,
-or git from source, depending on the version. Fortunately, you can build the 
-docker images JUST once, and you won't have to build it again (until the 
-`DOCKER_LFS_BUILD_VERSION` changes.) The build script uses a downloaded release
-from github of git-lfs to bootstrap the CentOS image and build/install all the 
-necessary software.
-
-This means all the compiling, yum/apt-get/custom dependency compiling is done 
-once and saved. (This is done in CentOS by using the already existing 
-`./rpm/rpm_build.bsh` script to bootstrap the image and saving the image.)
+or git from source, depending on the version.
 
 The script that takes care of ALL of these details for you is
 

@@ -3,10 +3,6 @@
 # Usage:
 #  ./build_dockers.bsh - Build all the compiling docker images
 #  ./build_dockers.bsh lfs_centos_5 lfs_centos_7 - Build only CentOS 5 & 7 image
-#
-# Special Environment Variables
-#  DOCKER_LFS_BUILD_VERSION - tag or sha to build envirnment off of. Important
-#                             in CentOS
 set -eu
 
 CUR_DIR=$(dirname "${BASH_SOURCE[0]}")
@@ -39,8 +35,6 @@ export GOLANG_VERSION GOLANG_SHA256 GOLANG_ARCH
 #If you are not in docker group and you have sudo, default value is sudo
 : ${SUDO=`if ( [ ! -w /var/run/docker.sock ] && id -nG | grep -qwv docker && [ "${DOCKER_HOST:+dh}" != "dh" ] ) && which sudo > /dev/null 2>&1; then echo sudo; fi`}
 export SUDO
-
-export DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION:-release-2.4}
 
 PARALLEL=
 if [[ ${1:-} = -j ]]; then
