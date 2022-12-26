@@ -21,10 +21,10 @@ the docker directory for more information on using these dockers.
 ### Committing tags ###
 
 To make docker tags in the automated build, you have to create a git branch/tag
-and map that to a docker tag. While master is the main development branch for this
+and map that to a docker tag. While `main` is the primary development branch for this
 repo, it did not make sence to branch and update a Dockerfile in different branches.
 Instead, the `commit_tags.bsh` script will execute `docker+` and generate the Dockerfiles
-for each tag and then commit them. This way you develop on master, and when you are ready
+for each tag and then commit them. This way you develop on `main`, and when you are ready
 to releast, run `commit_tags.bsh` and then push the tags. Note, you will have to do a 
 force push to update the tags.
 

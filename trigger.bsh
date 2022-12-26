@@ -28,7 +28,7 @@ for tag in "${TAG_LIST[@]}"; do
     echo '{
   "commit": "'$(git rev-parse $tag)'",
   "ref": "refs/tags/'$tag'",
-  "default_branch": "master"
+  "default_branch": "main"
 }' | $DRYRUN curl -X POST --data @- -H "Content-Type: application/json" $QUAY_HOOK
   fi
   if [ "$DOCKERHUB_HOOK" != "" -a "$#" -gt "0" ]; then
