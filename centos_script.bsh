@@ -46,5 +46,5 @@ rpmbuild --nodeps --define "dist ${RPM_DIST}" --define "_topdir ${GIT_LFS_BUILD_
 rsync -ra ${GIT_LFS_BUILD_DIR}/rpm/{SRPMS,RPMS} ${REPO_DIR}
 
 if [ "${FINAL_UID-}:${FINAL_GID-}" != ":" ]; then
-  chown ${FINAL_UID-}:${FINAL_GID-} -R /repo
+  chown ${FINAL_UID-}:${FINAL_GID-} -R "${REPO_DIR}"
 fi
