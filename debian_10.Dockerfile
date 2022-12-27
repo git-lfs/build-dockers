@@ -4,7 +4,7 @@ FROM debian:buster
 LABEL RUN="docker run -v git-lfs-checkout-dir:/src -v repo_dir:/repo"
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
-apt-get install -y gettext git dpkg-dev dh-golang ruby-ronn ronn asciidoctor curl
+apt-get install -y gettext git dpkg-dev dh-golang asciidoctor curl
 
 ARG GOLANG_VERSION=1.19.3
 ARG GOLANG_SHA256=74b9640724fd4e6bb0ed2a1bc44ae813a03f1e72a4c76253e2d5c015494430ba
