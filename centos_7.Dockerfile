@@ -4,13 +4,13 @@ MAINTAINER Andy Neff <andyneff@users.noreply.github.com>
 #Docker RUN example, pass in the git-lfs checkout copy you are working with
 LABEL RUN="docker run -v git-lfs-repo-dir:/src -v repo_dir:/repo"
 
-ENV GIT_SHA256=fd0197819920a62f4bb62fe1c4b1e1ead425659edff30ff76ff1b14a5919631c
+ENV GIT_SHA256=26831c5e48a8c2bf6a4fede1b38e1e51ffd6dad85952cf69ac520ebd81a5ae82
 
 RUN yum -y upgrade
 RUN yum install -y centos-release-scl
 RUN yum install -y rsync rh-ruby30-ruby rh-ruby30-build gcc
 RUN yum install -y gettext-devel libcurl-devel openssl-devel perl-CPAN perl-devel zlib-devel make wget autoconf && \
-  wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.16.0.tar.gz -O git.tar.gz && \
+  wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.34.5.tar.gz -O git.tar.gz && \
   [ "$(sha256sum git.tar.gz | cut -d' ' -f1)" = "${GIT_SHA256}" ] && \
   tar -zxf git.tar.gz && \
   cd git-* && \
