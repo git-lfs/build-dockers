@@ -43,7 +43,8 @@ git clean -xdf .
 rpm/build_rpms.bsh
 rpmbuild --nodeps --define "dist ${RPM_DIST}" --define "_topdir ${GIT_LFS_BUILD_DIR}/rpm/" --target=i686 -bb "${GIT_LFS_BUILD_DIR}"/rpm/SPECS/git-lfs.spec
 
-rsync -ra ${GIT_LFS_BUILD_DIR}/rpm/{SRPMS,RPMS} ${REPO_DIR}
+rsync -ra --include='*/' --include='git-lfs*' --exclude='*' \
+  "${GIT_LFS_BUILD_DIR}"/rpm/{SRPMS,RPMS} "${REPO_DIR}"
 
 if [ "${FINAL_UID-}:${FINAL_GID-}" != ":" ]; then
   chown ${FINAL_UID-}:${FINAL_GID-} -R "${REPO_DIR}"
