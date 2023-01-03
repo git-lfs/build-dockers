@@ -7,9 +7,6 @@ cd $(dirname "${BASH_SOURCE[0]}")
 : ${GOLANG_VERSION:=1.13.1}
 export GOLANG_VERSION
 
-export DOCKER_LFS_BUILD_VERSION=${DOCKER_LFS_BUILD_VERSION:-release-2.1}
-
-
 if ! git diff --cached --exit-code >/dev/null 2>&1 || ! git diff --exit-code >/dev/null 2>&1; then
   echo "Git repo is not clean. Please make sure everything is checked in and commited"
   exit 2
