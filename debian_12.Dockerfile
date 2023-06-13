@@ -1,10 +1,12 @@
-FROM debian:buster
+FROM debian:bookworm
 
 #Docker RUN example, pass in the git-lfs checkout copy you are working with
 LABEL RUN="docker run -v git-lfs-checkout-dir:/src -v repo_dir:/repo"
 
+RUN dpkg --add-architecture i386
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
-apt-get install -y gettext git dpkg-dev dh-golang asciidoctor curl
+apt-get install -y --no-install-recommends gettext git dpkg-dev dh-golang asciidoctor curl build-essential gcc-i686-linux-gnu libc6-dev:i386
 
 ARG GOLANG_VERSION=1.20.5
 ARG GOLANG_SHA256=d7ec48cde0d3d2be2c69203bc3e0a44de8660b9c09a6e85c4732a3f7dc442612
