@@ -4,8 +4,8 @@ RUN yum -y upgrade
 RUN yum install -y rsync ruby ruby-devel rubygems-devel gcc
 RUN yum install -y gettext-devel libcurl-devel openssl-devel perl-CPAN perl-devel zlib-devel make wget autoconf git
 
-ARG GOLANG_VERSION=1.20.5
-ARG GOLANG_SHA256=d7ec48cde0d3d2be2c69203bc3e0a44de8660b9c09a6e85c4732a3f7dc442612
+ARG GOLANG_VERSION=1.20.6
+ARG GOLANG_SHA256=b945ae2bb5db01a0fb4786afde64e6fbab50b67f6fa0eb6cfa4924f16a7ff1eb
 ARG GOLANG_ARCH=amd64
 
 ENV GOROOT=/usr/local/go
