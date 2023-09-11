@@ -13,6 +13,7 @@ ARG GOLANG_SHA256=b945ae2bb5db01a0fb4786afde64e6fbab50b67f6fa0eb6cfa4924f16a7ff1
 ARG GOLANG_ARCH=amd64
 
 ENV GOROOT=/usr/local/go
+ENV GOTOOLCHAIN=local
 
 RUN cd /usr/local && \
     curl -L -O https://golang.org/dl/go${GOLANG_VERSION}.linux-${GOLANG_ARCH}.tar.gz && \
