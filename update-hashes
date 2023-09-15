@@ -8,17 +8,17 @@ require 'json'
 require 'net/http'
 require 'tempfile'
 
-def rewrite_file(name)
+def rewrite_file(name, mode)
   r = File.open(name, "r")
   w = Tempfile.new(name, ".")
   yield r, w
   r.close
-  w.chmod(0755)
+  w.chmod(mode)
   File.rename(w.path, r.path)
 end
 
 def update_main_repo(version, hashes)
-  rewrite_file("build_dockers.bsh") do |r, w|
+  rewrite_file("build_dockers.bsh", 0755) do |r, w|
     puts "Processing build_dockers.bsh"
     arch = nil
     in_arch = false
@@ -45,7 +45,7 @@ def update_main_repo(version, hashes)
 end
 
 def update_dockerfile(name, version, hashes)
-  rewrite_file(name) do |r, w|
+  rewrite_file(name, 0644) do |r, w|
     puts "Processing #{name}"
     while line = r.gets
       case line
