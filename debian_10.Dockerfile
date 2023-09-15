@@ -6,8 +6,8 @@ LABEL RUN="docker run -v git-lfs-checkout-dir:/src -v repo_dir:/repo"
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
 apt-get install -y gettext git dpkg-dev dh-golang asciidoctor curl
 
-ARG GOLANG_VERSION=1.20.6
-ARG GOLANG_SHA256=b945ae2bb5db01a0fb4786afde64e6fbab50b67f6fa0eb6cfa4924f16a7ff1eb
+ARG GOLANG_VERSION=1.21.1
+ARG GOLANG_SHA256=b3075ae1ce5dab85f89bc7905d1632de23ca196bd8336afd93fa97434cfa55ae
 ARG GOLANG_ARCH=amd64
 
 ENV GOROOT=/usr/local/go
