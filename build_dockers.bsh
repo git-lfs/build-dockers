@@ -2,7 +2,7 @@
 
 # Usage:
 #  ./build_dockers.bsh - Build all the compiling docker images
-#  ./build_dockers.bsh lfs_centos_5 lfs_centos_7 - Build only CentOS 5 & 7 image
+#  ./build_dockers.bsh centos_7 centos_8 - Build only CentOS 7 & 8 image
 set -eu
 
 CUR_DIR=$(dirname "${BASH_SOURCE[0]}")
