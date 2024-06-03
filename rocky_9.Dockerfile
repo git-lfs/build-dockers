@@ -1,8 +1,8 @@
 FROM rockylinux/rockylinux:9
 
-RUN yum -y upgrade
-RUN yum install -y rsync ruby ruby-devel rubygems-devel gcc
-RUN yum install -y gettext-devel libcurl-devel openssl-devel perl-CPAN perl-devel zlib-devel make wget autoconf git
+RUN dnf -y upgrade
+RUN dnf install -y rsync ruby ruby-devel rubygems-devel gcc
+RUN dnf install -y gettext-devel libcurl-devel openssl-devel perl-CPAN perl-devel zlib-devel make wget autoconf git
 
 ARG GOLANG_VERSION=1.22.1
 ARG GOLANG_SHA256=aab8e15785c997ae20f9c88422ee35d962c4562212bb0f879d052a35c8307c7f
