@@ -6,8 +6,17 @@ LABEL RUN="docker run -v git-lfs-repo-dir:/src -v repo_dir:/repo"
 
 ENV GIT_SHA256=26831c5e48a8c2bf6a4fede1b38e1e51ffd6dad85952cf69ac520ebd81a5ae82
 
+RUN sed -i 's/mirror\.centos\.org/vault.centos.org/g' /etc/yum.repos.d/*.repo
+RUN sed -i 's/^# *baseurl=/baseurl=/' /etc/yum.repos.d/*.repo
+RUN sed -i 's/^mirrorlist=/#mirrorlist=/' /etc/yum.repos.d/*.repo
+
 RUN yum -y upgrade
 RUN yum install -y centos-release-scl
+
+RUN sed -i 's/mirror\.centos\.org/vault.centos.org/g' /etc/yum.repos.d/CentOS-SCLo-scl*.repo
+RUN sed -i 's/^# *baseurl=/baseurl=/' /etc/yum.repos.d/CentOS-SCLo-scl*.repo
+RUN sed -i 's/^mirrorlist=/#mirrorlist=/' /etc/yum.repos.d/CentOS-SCLo-scl*.repo
+
 RUN yum install -y rsync rh-ruby30-ruby rh-ruby30-build gcc
 RUN yum install -y gettext-devel libcurl-devel openssl-devel perl-CPAN perl-devel zlib-devel make wget autoconf && \
   wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.34.5.tar.gz -O git.tar.gz && \
