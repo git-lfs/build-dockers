@@ -4,7 +4,7 @@ set -e
 
 IMAGE_NAME="$1"
 
-# IMAGE_NAME is "./debian_7.Dockerfile"
+# IMAGE_NAME is "./debian_12.Dockerfile"
 # strip basename
 # strip leading "./"
 # strip trailing ".Dockerfile"
