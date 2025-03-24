@@ -8,8 +8,8 @@ RUN dpkg --add-architecture i386
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
 apt-get install -y --no-install-recommends gettext git dpkg-dev dh-golang asciidoctor curl build-essential gcc-i686-linux-gnu libc6-dev:i386
 
-ARG GOLANG_VERSION=1.23.3
-ARG GOLANG_SHA256=a0afb9744c00648bafb1b90b4aba5bdb86f424f02f9275399ce0c20b93a2c3a8
+ARG GOLANG_VERSION=1.24.1
+ARG GOLANG_SHA256=cb2396bae64183cdccf81a9a6df0aea3bce9511fc21469fb89a0c00470088073
 ARG GOLANG_ARCH=amd64
 
 ENV GOROOT=/usr/local/go
