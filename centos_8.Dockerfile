@@ -1,8 +1,12 @@
 FROM rockylinux/rockylinux:8
 
 RUN yum -y upgrade
-RUN yum install -y rsync ruby ruby-devel rubygems-devel gcc
+RUN yum install -y rsync ruby ruby-devel rubygems-devel gcc yum-utils
 RUN yum install -y gettext-devel libcurl-devel openssl-devel perl-CPAN perl-devel zlib-devel make wget autoconf git
+
+RUN yum-config-manager --enable powertools
+RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+RUN yum install -y rubygem-asciidoctor
 
 ARG GOLANG_VERSION=1.24.4
 ARG GOLANG_SHA256=77e5da33bb72aeaef1ba4418b6fe511bc4d041873cbf82e5aa6318740df98717
