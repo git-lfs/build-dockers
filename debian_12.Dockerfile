@@ -24,4 +24,4 @@ RUN cd /usr/local && \
 
 COPY debian_script.bsh /tmp/
 
-CMD /tmp/debian_script.bsh
+CMD /tmp/debian_script.bsh --add-i386

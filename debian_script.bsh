@@ -8,6 +8,10 @@ case "$(uname -m)" in
     ARCH=arm64;;
 esac
 
+if [ "$ARCH" = "amd64" ] && [ "$#" -eq 1 ] && [ "$1" = "--add-i386" ]; then
+  ARCH="$ARCH i386"
+fi
+
 REPO_DIR=${REPO_DIR:-/repo}
 GIT_LFS_BUILD_DIR=${GIT_LFS_BUILD_DIR:-/tmp/docker_run/src/git-lfs}
 SRC_DIR=${SRC_DIR:-/src}
@@ -31,19 +35,11 @@ move_architecture () {
 }
 
 mkdir -p ${GIT_LFS_BUILD_DIR}
-case "$ARCH" in
-  amd64)
-    process_architecture i386
-    process_architecture amd64
 
-    move_architecture i386
-    move_architecture amd64
-    ;;
-  arm64)
-    process_architecture arm64
-    move_architecture arm64
-    ;;
-esac
+for arch in $ARCH; do
+  process_architecture "$arch"
+  move_architecture "$arch"
+done
 
 if [ "${FINAL_UID-}:${FINAL_GID-}" != ":" ]; then
   chown ${FINAL_UID-}:${FINAL_GID-} -R "${REPO_DIR}"
