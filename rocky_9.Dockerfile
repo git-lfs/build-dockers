@@ -24,4 +24,4 @@ RUN cd /usr/local && \
 
 COPY centos_script.bsh /tmp/
 
-CMD /tmp/centos_script.bsh
+CMD /tmp/centos_script.bsh --add-i386

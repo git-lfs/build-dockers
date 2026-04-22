@@ -12,7 +12,7 @@ cp -r -T "${SRC_DIR}" "${GIT_LFS_BUILD_DIR}"
 
 cd "${GIT_LFS_BUILD_DIR}"
 git clean -xdf .
-rpm/build_rpms.bsh
+rpm/build_rpms.bsh "$@"
 
 rsync -ra --include='*/' --include='git-lfs*' --exclude='*' \
   "${GIT_LFS_BUILD_DIR}"/rpm/{SRPMS,RPMS} "${REPO_DIR}"
