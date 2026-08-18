@@ -8,8 +8,8 @@ RUN yum-config-manager --enable powertools
 RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 RUN yum install -y rubygem-asciidoctor
 
-ARG GOLANG_VERSION=1.26.5
-ARG GOLANG_SHA256=5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053
+ARG GOLANG_VERSION=1.26.6
+ARG GOLANG_SHA256=708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89
 ARG GOLANG_ARCH=amd64
 
 ENV GOROOT=/usr/local/go
