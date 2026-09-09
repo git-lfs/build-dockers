@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 #Docker RUN example, pass in the git-lfs checkout copy you are working with
 LABEL RUN="docker run -v git-lfs-checkout-dir:/src -v repo_dir:/repo"
