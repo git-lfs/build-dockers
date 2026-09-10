@@ -5,6 +5,16 @@ LABEL RUN="docker run -v git-lfs-checkout-dir:/src -v repo_dir:/repo"
 
 RUN dpkg --add-architecture i386
 
+RUN echo "deb http://archive.debian.org/debian bullseye main contrib non-free" >/etc/apt/sources.list && \
+    echo "deb http://archive.debian.org/debian bullseye-updates main contrib non-free" >>/etc/apt/sources.list && \
+    echo "deb http://archive.debian.org/debian bullseye-backports main contrib non-free" >>/etc/apt/sources.list
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
+    apt-get install -y --no-install-recommends ca-certificates
+
+RUN echo "deb [check-valid-until=no] https://security.debian.org/debian-security bullseye-security main contrib non-free" >>/etc/apt/sources.list && \
+    echo "deb [check-valid-until=no] https://snapshot.debian.org/archive/debian-security/20260831T211327Z bullseye-security main contrib non-free" >>/etc/apt/sources.list
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && \
 apt-get install -y --no-install-recommends gettext git dpkg-dev dh-golang asciidoctor curl build-essential gcc-i686-linux-gnu libc6-dev:i386
 
