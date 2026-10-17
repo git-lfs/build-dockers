@@ -8,8 +8,8 @@ RUN dnf config-manager --set-enabled crb
 RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 RUN dnf install -y rubygem-asciidoctor
 
-ARG GOLANG_VERSION=1.27.0
-ARG GOLANG_SHA256=675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685
+ARG GOLANG_VERSION=1.27.2
+ARG GOLANG_SHA256=ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5
 ARG GOLANG_ARCH=amd64
 
 ENV GOROOT=/usr/local/go
